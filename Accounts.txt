@@ -1,0 +1,4 @@
+Account{accountName='Emir', accountNumber=1, balance=10000}
+Account{accountName='Emin', accountNumber=2, balance=20000}
+Account{accountName='Aga', accountNumber=3, balance=100000}
+Account{accountName='Bake', accountNumber=4, balance=30000}
