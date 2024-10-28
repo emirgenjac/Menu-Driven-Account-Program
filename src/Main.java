@@ -56,6 +56,7 @@ class AccountManager {
         return accounts.values();
     }
 
+
     public static void viewAllAccounts() {
         if (accounts.isEmpty()) {
             System.out.println("No accounts found");
@@ -72,6 +73,25 @@ class AccountManager {
             System.out.println("Account deleted: " + accounts.get(id));
         } else {
             System.out.println("Account not found");
+        }
+    }
+
+    public static void loadAccountsFromFile(String filePath) {
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.replace("Account{", "").replace("}", "").split(", ");
+                int id = Integer.parseInt(parts[1].split("=")[1]);
+                String name = parts[0].split("=")[1].split("'")[1];
+                String balance = parts[2].split("=")[1];
+
+                accounts.put(id, new Account(id, name, balance));
+                nextId = Math.max(nextId, id + 1);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
@@ -139,8 +159,13 @@ public class Main {
         } while (choice != 6);
     }
     public static void main(String[] args) {
+           String filePath = "C:\\Users\\genja\\OneDrive\\Desktop\\Java\\Collection\\AccountProgramwithHashMap\\Accounts.txt";
+            AccountManager.loadAccountsFromFile(filePath);
+            AccountManager.viewAllAccounts();
+
        try {
-        menu();
+
+           menu();
        } catch (Exception e) {
            e.printStackTrace();
        }
